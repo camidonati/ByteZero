@@ -22,3 +22,6 @@ Se han dejado plasmadas los encuentros grupales y tareas
 https://trello.com/b/o23xQBYv/proyecto-integrador
 
 Enlace del Proyecto: https://github.com/camidonati/ByteZero.git
+
+Ramas Auxiliares:
+Eduardo
