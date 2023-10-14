@@ -120,7 +120,7 @@ for i in range(len(years)):
 connection.commit()
 
 #print("Datos insertados en la base de datos SQL.")
-cursor.execute("SELECT DATABASE ()")
+cursor.execute("SELECT * FROM scrap.emigracion")
 result1 = cursor.fetchall()
 print(result1)
 #cerrar la conexión
