@@ -27,7 +27,7 @@ Ramas Auxiliares:
 Eduardo
 
 Se distribuyen las tareas: 
-Todos scrapean las páginas elegidas para la extracción de datos.
+Todos "scrapean" las páginas elegidas para la extracción de datos.
 Se comparan los datos obtenidos.
 Se descarga una base de datos con la que se realizará un "dashboard".
 Se trabaja en la realización del "front".
