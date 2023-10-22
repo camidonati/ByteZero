@@ -25,3 +25,6 @@ Enlace del Proyecto: https://github.com/camidonati/ByteZero.git
 
 Ramas Auxiliares:
 Eduardo
+Sofía
+Camila 
+Laura
