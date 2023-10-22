@@ -24,7 +24,7 @@ https://trello.com/b/o23xQBYv/proyecto-integrador
 Enlace del Proyecto: https://github.com/camidonati/ByteZero.git
 
 Ramas Auxiliares:
-Eduardo
-Sofía
-Camila 
+Eduardo,
+Sofía,
+Camila,
 Laura
