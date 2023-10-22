@@ -1,4 +1,3 @@
-Script de primer intento de scrap y guardado en base de datos. Sin errores. con impresion por consola de los resultados.
-Se tienen que adicionar mas funcionalidad. Creacion de base de datos de manera automatica.
-Al momento de actualizar los valores, se debe tener en cuenta que no tengan conflictos con los anteriores.
-Procurar una mejora y agregar la parte para realizar toda la modificacion de la base.
+Se encuentra terminada la app. Se puede usar con front o sin. Las consultas / modificacion / borrado /insertar nuevos datos a la base, solo desde la consola.
+El front, por cuestiones de tiempo, solo se puede consultar la base por registros. 
+El front esta basado en el "mini" framework FLASK. Que incluye un servidor web donde poder ejecutar la app, directamente en el navegador y  localmente. Crea un acceso desde el localhost:5000. Usando el metodo POST realiza la distintas operaciones necesarias para el render de la pagina de consulta como a su vez la de los resultados. Todas las paginas cuentan con una breve .css que da formato a las tablas como la imgen de fondo y ademas el color de las letras.
