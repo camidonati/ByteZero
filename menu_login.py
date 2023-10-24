@@ -80,6 +80,45 @@ def inicio_usuario():
             conexion.close()
             sys.exit()
 
+def menu_datos ():
+    print("-" * 90)
+    print("¿Que datos desea consultar")
+    print("-" * 90)
+    print("1. Emigracion")
+    print("2. Inmigracion")
+    print("0. Salir")
+    
+    while True:
+            opcion = int(input("Ingrese una opcion"))
+            if (opcion >= 0 and opcion <= 2):
+                if opcion == 1:
+                    datos = "inmigracion"
+                    menu_usuario (datos)
+                    break
+                
+                elif opcion == 2:
+                    datos = "emigracion"
+                    menu_usuario (datos)
+                    break
+
+                elif opcion == 0:
+                    sys.exit()
+                    
+            else:
+                print("Opcion incorrecta, intente de nuevo")
+
+def menu_usuario(datos):
+    print("-" * 90)
+    print("Menú de usuario:")
+    print("-" * 90)
+    print("1. Consultar registro por Id")
+    print("2. Agregar registro a la base")
+    print("3. Modificar registro por Id")
+    print("4. Eliminar registro por Id")
+    print("5. Imprmir base de datos actualizada")
+    print("6. Salir")
+    print("-" * 90)
+
 # Llamando a las funciones
 #cargar_usuario()
 inicio_usuario()
