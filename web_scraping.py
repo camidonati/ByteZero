@@ -2,15 +2,40 @@ import os
 import requests
 from bs4 import BeautifulSoup
 import csv
-import mysql.connector
+import BBDD
 
-def web_scraping ():
+
+def web_scraping (datos):
+    
+    # URL de la página
+    if datos == "inmigracion":
+        url = 'https://datosmacro.expansion.com/demografia/migracion/inmigracion/argentina'
+        # Borrar la tabla
+        delete_table_query = "DROP TABLE IF EXISTS inmigracion"
+        # Crear una tabla si no existe
+        create_table_query = """
+        CREATE TABLE IF NOT EXISTS inmigracion (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            year INT,
+            inmigration_men INT,
+            inmigration_women INT,
+            total_inmigration INT
+        )
+        """
+        
+        # Insertar datos en la tabla
+        insert_query = """
+        INSERT INTO inmigracion (year, inmigration_men, inmigration_women, total_inmigration)
+        VALUES (%s, %s, %s, %s)
+        """
+        
+        insert_data = "SELECT * FROM inmigracion"
+    
+    elif datos == "emigracion":
+        url = 'https://datosmacro.expansion.com/demografia/migracion/emigracion/argentina'
 
     # Definir la ruta completa donde deseas guardar el archivo CSV
     ruta_completa = os.path.dirname(os.path.realpath(__file__))
-
-    # URL de la página
-    url = 'https://datosmacro.expansion.com/demografia/migracion/inmigracion/argentina'
 
     # Realizar la solicitud GET
     response = requests.get(url)
@@ -25,9 +50,9 @@ def web_scraping ():
     if table:
         # Inicializar listas para almacenar los datos
         years = []
-        date_men = []
-        date_women = []
-        total_date = []
+        data_men = []
+        data_women = []
+        total_data = []
 
         # Encontrar todas las filas de datos en la tabla
         rows = table.find_all('tr')
@@ -44,9 +69,9 @@ def web_scraping ():
             total = columns[3].text.strip().replace('.', '')
 
             years.append(year)
-            date_men.append(men)
-            date_women.append(women)
-            total_date.append(total)
+            data_men.append(men)
+            data_women.append(women)
+            total_data.append(total)
 
         # Crear archivo CSV 
         csv_filename = os.path.join(ruta_completa, 'argentina_inmigrantes_totales_tabla1.csv')
@@ -58,13 +83,58 @@ def web_scraping ():
             for i in range(len(years)):
                 writer.writerow({
                     'Year': years[i],
-                    'Inmigration Men': date_men[i],
-                    'Inmigration Women': date_women[i],
-                    'Total Inmigration': total_date[i],
+                    'Inmigration Men': data_men[i],
+                    'Inmigration Women': data_women[i],
+                    'Total Inmigration': total_data[i],
                 })
     else:
         print("La tabla no se encontró en la página.")
 
     print("Datos extraídos y guardados en el archivo CSV en la ubicación especificada:", csv_filename)
     
-web_scraping ()  
+    while True:
+        choice = input("¿Deseas eliminar la base de datos existente? (s/n): ").strip().lower()
+        if choice == 's':
+            borrar = True
+            break
+        elif choice == 'n':
+            borrar = False
+            break
+        else:
+            print("Opción no válida. Por favor, elige 's' para eliminar o 'n' para no eliminar la base de datos.")
+        
+    
+    # Iniciamos la base de datos
+    conexion = BBDD.abrir_base()
+    cursor = conexion.cursor()
+    print("Conexión exitosa")
+    
+    if borrar:
+
+        # Eliminar la tabla de la base de datos si se selecciona
+        cursor.execute(delete_table_query)
+        cursor.execute(create_table_query)
+           
+        for i in range(len(years)):
+            data = (
+                years[i],
+                int(data_men[i]),
+                int(data_women[i]),
+                int(total_data[i]),
+            )
+            cursor.execute(insert_query, data)
+
+        # Commit los cambios
+        conexion.commit()
+        print("Datos insertados en la base de datos SQL.")
+        
+        cursor.execute(insert_data)
+        res = cursor.fetchall()
+
+        # Commit los cambios
+        conexion.commit()
+        print("Tabla creada en la base de datos SQL.")
+        
+    
+    
+    

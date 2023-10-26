@@ -1,5 +1,6 @@
 import sys
 import BBDD
+import web_scraping as WS
 
 def cargar_usuario():
     # Iniciamos la base de datos
@@ -70,7 +71,7 @@ def inicio_usuario():
             print("-" * 90)
             # Cerrar la conexión a la base de datos
             conexion.close()
-            return True
+            menu_datos ()
 
         if contador == 3:
             print("-" * 90)
@@ -82,22 +83,22 @@ def inicio_usuario():
 
 def menu_datos ():
     print("-" * 90)
-    print("¿Que datos desea consultar")
+    print("¿Que datos desea consultar?")
     print("-" * 90)
     print("1. Emigracion")
     print("2. Inmigracion")
     print("0. Salir")
     
     while True:
-            opcion = int(input("Ingrese una opcion"))
+            opcion = int(input("Ingrese una opcion: "))
             if (opcion >= 0 and opcion <= 2):
                 if opcion == 1:
-                    datos = "inmigracion"
+                    datos = "emigracion"
                     menu_usuario (datos)
                     break
                 
                 elif opcion == 2:
-                    datos = "emigracion"
+                    datos = "inmigracion"
                     menu_usuario (datos)
                     break
 
@@ -108,6 +109,8 @@ def menu_datos ():
                 print("Opcion incorrecta, intente de nuevo")
 
 def menu_usuario(datos):
+    WS.web_scraping (datos)
+    
     print("-" * 90)
     print("Menú de usuario:")
     print("-" * 90)
@@ -118,6 +121,8 @@ def menu_usuario(datos):
     print("5. Imprmir base de datos actualizada")
     print("6. Salir")
     print("-" * 90)
+    
+    WS.web_scraping (datos)
 
 # Llamando a las funciones
 #cargar_usuario()
