@@ -33,6 +33,26 @@ def web_scraping (datos):
     
     elif datos == "emigracion":
         url = 'https://datosmacro.expansion.com/demografia/migracion/emigracion/argentina'
+        # Borrar la tabla
+        delete_table_query = "DROP TABLE IF EXISTS emigracion"
+        # Crear tabla si no existe
+        create_table_query = """
+        CREATE TABLE IF NOT EXISTS emigracion (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            year INT,
+            emigration_men INT,
+            emigration_women INT,
+            total_emigration INT
+        )
+        """
+        # Insertar datos en la tabla
+        insert_query = """
+        INSERT INTO emigracion (year, emigration_men, emigration_women, total_emigration)
+        VALUES (%s, %s, %s, %s)
+        """
+        
+        insert_data = "SELECT * FROM emigracion"
+
 
     # Definir la ruta completa donde deseas guardar el archivo CSV
     ruta_completa = os.path.dirname(os.path.realpath(__file__))
@@ -74,18 +94,19 @@ def web_scraping (datos):
             total_data.append(total)
 
         # Crear archivo CSV 
-        csv_filename = os.path.join(ruta_completa, 'argentina_inmigrantes_totales_tabla1.csv')
+        csv_filename = os.path.join(ruta_completa, "argentina_"+datos+"_totales_tabla1.csv")
         with open(csv_filename, 'w', newline='', encoding='utf-8') as csv_file:
-            fieldnames = ['Year', 'Inmigration Men', 'Inmigration Women', 'Total Inmigration']
+            fieldnames = ['Year', datos + " Men", datos + " Women", "Total " + datos]
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
 
             for i in range(len(years)):
+                
                 writer.writerow({
                     'Year': years[i],
-                    'Inmigration Men': data_men[i],
-                    'Inmigration Women': data_women[i],
-                    'Total Inmigration': total_data[i],
+                    datos + " Men": data_men[i],
+                    datos + " Women": data_women[i],
+                    "Total " + datos: total_data[i],
                 })
     else:
         print("La tabla no se encontró en la página.")
@@ -134,6 +155,9 @@ def web_scraping (datos):
         # Commit los cambios
         conexion.commit()
         print("Tabla creada en la base de datos SQL.")
+        
+        #Cerramos la base de datos
+        conexion.close()
         
     
     

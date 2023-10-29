@@ -1,6 +1,7 @@
 import sys
 import BBDD
 import web_scraping as WS
+import CRUD 
 
 def cargar_usuario():
     # Iniciamos la base de datos
@@ -8,6 +9,7 @@ def cargar_usuario():
     cursor = conexion.cursor()
 
     while True:
+        print("-" * 90)
         nombre_del_usuario = input("Ingrese un nombre de usuario: ")
         # Ver si el usuario es único
         consulta = "SELECT usuario FROM usuarios WHERE usuario = %s"
@@ -44,6 +46,7 @@ def cargar_usuario():
     conexion.close()
 
     print("Usuario registrado exitosamente")
+    menu_datos ()
 
 def inicio_usuario():
     contador = 0
@@ -53,6 +56,7 @@ def inicio_usuario():
     cursor = conexion.cursor()
 
     while True:
+        print("-" * 90)
         usuario_registrado = input("Ingrese su usuario: ")
         contrasena = input("Ingrese la contraseña: ")
 
@@ -82,25 +86,26 @@ def inicio_usuario():
             sys.exit()
 
 def menu_datos ():
-    print("-" * 90)
-    print("¿Que datos desea consultar?")
-    print("-" * 90)
-    print("1. Emigracion")
-    print("2. Inmigracion")
-    print("0. Salir")
+    
     
     while True:
+            print("-" * 90)
+            print("¿Que datos desea consultar?")
+            print("-" * 90)
+            print("1. Emigracion")
+            print("2. Inmigracion")
+            print("0. Salir")
             opcion = int(input("Ingrese una opcion: "))
             if (opcion >= 0 and opcion <= 2):
                 if opcion == 1:
                     datos = "emigracion"
                     menu_usuario (datos)
-                    break
+                    
                 
                 elif opcion == 2:
                     datos = "inmigracion"
                     menu_usuario (datos)
-                    break
+                    
 
                 elif opcion == 0:
                     sys.exit()
@@ -109,21 +114,73 @@ def menu_datos ():
                 print("Opcion incorrecta, intente de nuevo")
 
 def menu_usuario(datos):
+    print("-" * 90)
+    print ("Espere por favor mientras procesamos los datos.")
+    print("-" * 90)
     WS.web_scraping (datos)
-    
-    print("-" * 90)
-    print("Menú de usuario:")
-    print("-" * 90)
-    print("1. Consultar registro por Id")
-    print("2. Agregar registro a la base")
-    print("3. Modificar registro por Id")
-    print("4. Eliminar registro por Id")
-    print("5. Imprmir base de datos actualizada")
-    print("6. Salir")
-    print("-" * 90)
-    
-    WS.web_scraping (datos)
+    while True:
+        print("-" * 90)
+        print("Menú de usuario:")
+        print("-" * 90)
+        print("1. Consultar registro por Id")
+        print("2. Agregar registro a la base")
+        print("3. Modificar registro por Id")
+        print("4. Eliminar registro por Id")
+        print("5. Imprmir base de datos actualizada")
+        print("0. Volver")
+        print("-" * 90)
+        
+        opcion = int(input("Ingrese una opcion: "))
+        if (opcion >= 0 and opcion <= 5):
+                if opcion == 1:
+                    CRUD.consulta_por_id(datos)
+                    
+                
+                elif opcion == 2:
+                    datos = "inmigracion"
+                    menu_usuario (datos)
+                    
+                
+                elif opcion == 3:
+                    datos = "inmigracion"
+                    menu_usuario (datos)
+                    
+                
+                elif opcion == 4:
+                    datos = "inmigracion"
+                    menu_usuario (datos)
+                    
+                
+                elif opcion == 5:
+                    datos = "inmigracion"
+                    menu_usuario (datos)
+                    
 
-# Llamando a las funciones
-#cargar_usuario()
-inicio_usuario()
+                elif opcion == 0:
+                    break
+                    
+        else:
+                print("Opcion incorrecta, intente de nuevo")
+    
+
+# menu inicial
+print("-" * 90)
+print ("Bienvenidos al sistema de consulta ByteZero")
+print("-" * 90)
+while True:
+            print ("1- Iniciar sesion \n2- Registrarse \n0- Salir")
+            print("-" * 90)
+            opcion = int(input("Ingrese una opcion: "))
+            if (opcion >= 0 and opcion <= 2):
+                if opcion == 1:
+                    inicio_usuario()
+                    
+                elif opcion == 2:
+                    cargar_usuario()
+
+                elif opcion == 0:
+                    sys.exit()
+                    
+            else:
+                print("Opcion incorrecta, intente de nuevo")
+
