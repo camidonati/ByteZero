@@ -10,8 +10,10 @@ def consulta_por_id (datos):
         # Consulta registro por ID
         consulta_id = int(input("Ingresa el ID del registro que deseas consultar: "))
         cursor.execute("SELECT * FROM inmigracion WHERE id = %s", (consulta_id,))
-        res = cursor.fetchone()
-        imprimir(res,datos)
+        res = cursor.fetchall()
+        if res is not None:
+            imprimir(res, datos)
+        
         #Cerramos la base de datos
         conexion.close()
         
@@ -19,8 +21,10 @@ def consulta_por_id (datos):
         # Consulta registro por ID
         consulta_id = int(input("Ingresa el ID del registro que deseas consultar: "))
         cursor.execute("SELECT * FROM emigracion WHERE id = %s", (consulta_id,))
-        res = cursor.fetchone()
-        imprimir(res,datos)
+        res = cursor.fetchall()
+        if res is not None:
+            imprimir(res, datos)
+        
         #Cerramos la base de datos
         conexion.close()
         
@@ -30,8 +34,8 @@ def agregar_registro(datos):
         cursor = conexion.cursor()
     # Agrega registro por ID        
         anio_nuevo = int(input("Ingresa el nuevo año: "))
-        datos_h = int(input("Ingresa la cantidad de " + datos + "de hombres: "))
-        datos_w = int(input("Ingresa la cantidad de " +datos +"de mujeres: "))
+        datos_h = int(input("Ingresa la cantidad de " + datos + " de hombres: "))
+        datos_w = int(input("Ingresa la cantidad de " +datos +" de mujeres: "))
 
         if datos == "inmigracion":
             insert_query = """
@@ -40,7 +44,7 @@ def agregar_registro(datos):
             """
         elif datos == "emigracion":
             insert_query = """
-            INSERT INTO inmigracion (year, inmigration_men, inmigration_women, total_inmigration)
+            INSERT INTO emigracion (year, emigration_men, emigration_women, total_emigration)
             VALUES (%s, %s, %s, %s)
             """
             
@@ -73,7 +77,7 @@ def tabla_completa(datos):
     if datos == "inmigracion":
         # Consulta la tabla imigracion
         cursor.execute("SELECT * FROM inmigracion")
-        res = cursor.fetchone()
+        res = cursor.fetchall()
         imprimir(res,datos)
         #Cerramos la base de datos
         conexion.close()
@@ -81,7 +85,7 @@ def tabla_completa(datos):
     elif datos == "emigracion":
         # Consulta la tabla emigracion
         cursor.execute("SELECT * FROM emigracion" )
-        res = cursor.fetchone()
+        res = cursor.fetchall()
         imprimir(res,datos)
         #Cerramos la base de datos
         conexion.close()
@@ -91,10 +95,17 @@ def imprimir(res,datos):
             datos = datos.capitalize()
             # Formatear el resultado en una tabla tabulada
             column_names = ["Id", "Año", datos + " Hombres", datos + " Mujeres", "Total " + datos ]
-            data = [res]
-            
-            # Imprimir la tabla en la consola
-            tabla = tabulate.tabulate(data, headers=column_names, tablefmt="pretty")
+            data = []
+            for row in res:
+                data.append({
+                    "Id": row[0],
+                    "Año": row[1],
+                    datos + " Hombres": row[2],
+                    datos + " Mujeres": row[3],
+                    "Total " + datos: row[4]
+            })
+                # Imprimir la tabla en la consola
+            tabla = tabulate.tabulate(data, headers="keys", tablefmt="pretty")
             print("\nRegistro encontrado:")
             print("-" * 90)
             print(tabla)

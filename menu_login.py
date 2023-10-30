@@ -137,8 +137,7 @@ def menu_usuario(datos):
                     
                 
                 elif opcion == 2:
-                    datos = "inmigracion"
-                    menu_usuario (datos)
+                    CRUD.agregar_registro(datos)
                     
                 
                 elif opcion == 3:
@@ -152,8 +151,7 @@ def menu_usuario(datos):
                     
                 
                 elif opcion == 5:
-                    datos = "inmigracion"
-                    menu_usuario (datos)
+                    CRUD.tabla_completa (datos)
                     
 
                 elif opcion == 0:
