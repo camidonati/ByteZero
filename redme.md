@@ -1,0 +1,4 @@
+Se encuentra terminada la app. Se puede usar con front o sin. Las consultas / modificacion / borrado /insertar nuevos datos a la base, solo desde la consola.
+El front, por cuestiones de tiempo, solo se puede consultar la base de a un registro a la vez. 
+El front esta basado en el "mini" framework FLASK. Que incluye un servidor web donde poder ejecutar la app, directamente en el navegador y  localmente. Crea un acceso desde el localhost:5000. Usando el metodo POST realiza la distintas operaciones necesarias para el render de la pagina de consulta como a su vez la de los resultados. Todas las paginas cuentan con una breve .css que da formato a las tablas como la imgen de fondo y ademas el color de las letras.
+Por cuestiones de falta de tiempo y conocimiernto mas profundo, la esta dividida en dos. Emigracion e Inmigracion, lo que genera dos bases de datos. A futuro se pueden unir en un solo script, con el codigo limpio y mas eficiente.
