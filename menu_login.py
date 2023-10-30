@@ -141,13 +141,11 @@ def menu_usuario(datos):
                     
                 
                 elif opcion == 3:
-                    datos = "inmigracion"
-                    menu_usuario (datos)
+                    CRUD.modificar_tabla(datos)
                     
                 
                 elif opcion == 4:
-                    datos = "inmigracion"
-                    menu_usuario (datos)
+                    CRUD.borrar_registro (datos)
                     
                 
                 elif opcion == 5:

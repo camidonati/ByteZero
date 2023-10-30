@@ -32,7 +32,7 @@ def agregar_registro(datos):
         # Iniciamos la base de datos
         conexion = BBDD.abrir_base()
         cursor = conexion.cursor()
-    # Agrega registro por ID        
+        # Agrega registro por ID        
         anio_nuevo = int(input("Ingresa el nuevo año: "))
         datos_h = int(input("Ingresa la cantidad de " + datos + " de hombres: "))
         datos_w = int(input("Ingresa la cantidad de " +datos +" de mujeres: "))
@@ -67,8 +67,74 @@ def agregar_registro(datos):
         except Exception as ex:
             print("Error al agregar el registro:", ex)
             
+def modificar_tabla (datos):
+        # Iniciamos la base de datos
+        conexion = BBDD.abrir_base()
+        cursor = conexion.cursor()
+        # Modifica registro por ID
+        id_a_modificar = int(input("Ingresa el ID del registro que deseas modificar: "))
+        anio_nuevo = input("Ingresa el nuevo año: ")
+        datos_h = int(input("Ingresa la nueva cantidad de " + datos + " en hombres: "))
+        datos_w = int(input("Ingresa la nueva cantidad de " + datos + " en mujeres: "))
+        # Calcular el valor de total_inmigration
+        total_inmigration = datos_h + datos_w
         
+        if datos == "inmigracion":
+            insert_query = """
+            UPDATE inmigracion SET year = %s, inmigration_men = %s, inmigration_women = %s, total_inmigration = %s 
+            """
+        elif datos == "emigracion":
+            insert_query = """
+            UPDATE emigracion SET year = %s, emigration_men = %s, emigration_women = %s, total_emigration = %s WHERE id = %s
+            """
+
+        data = (
         
+            anio_nuevo,
+            datos_h,
+            datos_w,
+            total_inmigration,
+            id_a_modificar,
+        )
+        
+        try:
+            cursor.execute(insert_query, data)
+            conexion.commit()
+            cursor.fetchall()
+            print("-" * 90)
+            print("Registro agregado correctamente.")
+            print("-" * 90)
+        except Exception as ex:
+            print("-" * 90)
+            print("Error al agregar el registro:", ex)
+            print("-" * 90)
+            
+        print("-" * 90)
+        print("Registro modificado correctamente.")     
+        print("-" * 90)
+        
+def borrar_registro (datos):
+        # Iniciamos la base de datos
+        conexion = BBDD.abrir_base()
+        cursor = conexion.cursor()
+        # Eliminar registro por ID
+        id_a_eliminar = int(input("Ingresa el ID del registro que deseas eliminar: "))
+        valor = (id_a_eliminar,)
+        if datos == "inmigracion":
+            insert_query = """
+            DELETE FROM inmigracion WHERE id = %s
+            """
+        elif datos == "emigracion":
+            insert_query = """
+            DELETE FROM emigracion WHERE id = %s
+            """
+        
+        cursor.execute(insert_query,valor)
+        conexion.commit()
+        print("-" * 90)
+        print("Registro eliminado correctamente.")   
+        print("-" * 90)  
+              
 def tabla_completa(datos):
     # Iniciamos la base de datos
     conexion = BBDD.abrir_base()
