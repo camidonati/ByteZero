@@ -113,16 +113,16 @@ def web_scraping (datos):
 
     print("Datos extraídos y guardados en el archivo CSV en la ubicación especificada:", csv_filename)
     
-    while True:
-        choice = input("¿Deseas eliminar la base de datos existente? (s/n): ").strip().lower()
-        if choice == 's':
-            borrar = True
-            break
-        elif choice == 'n':
-            borrar = False
-            break
-        else:
-            print("Opción no válida. Por favor, elige 's' para eliminar o 'n' para no eliminar la base de datos.")
+    # while True:
+    #     choice = input("¿Deseas eliminar la base de datos existente? (s/n): ").strip().lower()
+    #     if choice == 's':
+    #         borrar = True
+    #         break
+    #     elif choice == 'n':
+    #         borrar = False
+    #         break
+    #     else:
+    #         print("Opción no válida. Por favor, elige 's' para eliminar o 'n' para no eliminar la base de datos.")
         
     
     # Iniciamos la base de datos
@@ -130,12 +130,17 @@ def web_scraping (datos):
     cursor = conexion.cursor()
     print("Conexión exitosa")
     
-    if borrar:
+    
 
-        # Eliminar la tabla de la base de datos si se selecciona
-        cursor.execute(delete_table_query)
+    #     # Eliminar la tabla de la base de datos si se selecciona
+    #     cursor.execute(delete_table_query)
+    
+    # Consultar el esquema para verificar si la tabla existe
+    cursor.execute("SHOW TABLES LIKE %s", (datos,))
+    resultado = cursor.fetchone()
+
+    if resultado is None:
         cursor.execute(create_table_query)
-           
         for i in range(len(years)):
             data = (
                 years[i],
@@ -144,20 +149,19 @@ def web_scraping (datos):
                 int(total_data[i]),
             )
             cursor.execute(insert_query, data)
-
-        # Commit los cambios
-        conexion.commit()
-        print("Datos insertados en la base de datos SQL.")
+            # Commit los cambios
+            conexion.commit()
+            print("Datos insertados en la base de datos SQL.")
         
-        cursor.execute(insert_data)
-        res = cursor.fetchall()
+    cursor.execute(insert_data)
+    res = cursor.fetchall()
 
-        # Commit los cambios
-        conexion.commit()
-        print("Tabla creada en la base de datos SQL.")
+    # Commit los cambios
+    conexion.commit()
+    print("Tabla creada en la base de datos SQL.")
         
-        #Cerramos la base de datos
-        conexion.close()
+    #Cerramos la base de datos
+    conexion.close()
         
     
     

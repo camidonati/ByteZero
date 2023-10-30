@@ -87,7 +87,7 @@ def inicio_usuario():
 
 def menu_datos ():
     
-    BBDD.crear_base_de_datos_si_no_existe()
+    
     while True:
             print("-" * 90)
             print("¿Que datos desea consultar?")
@@ -160,6 +160,7 @@ def menu_usuario(datos):
     
 
 # menu inicial
+BBDD.crear_base_de_datos_si_no_existe()
 print("-" * 90)
 print ("Bienvenidos al sistema de consulta ByteZero")
 print("-" * 90)
