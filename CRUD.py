@@ -134,7 +134,43 @@ def borrar_registro (datos):
         print("-" * 90)
         print("Registro eliminado correctamente.")   
         print("-" * 90)  
-              
+        
+def reiniciar_datos (datos):
+    if datos == "inmigracion":
+        # Borrar la tabla
+        delete_table_query = "DROP TABLE IF EXISTS inmigracion"
+        
+    elif datos == "emigracion":
+        # Borrar la tabla
+        delete_table_query = "DROP TABLE IF EXISTS emigracion"
+    
+    while True:
+            print("-" * 90)
+            choice = input("¿Esta seguro que quiere reinicar los datos del sistema " + datos + " ? (s/n): ").strip().lower()
+            print("-" * 90)
+            if choice == 's':
+                borrar = True
+                break
+            elif choice == 'n':
+                borrar = False
+                break
+            else:
+                 print("Opción no válida. Por favor, elige 's' para eliminar o 'n' para no eliminar la base de datos.")
+    
+    if borrar :
+         # Iniciamos la base de datos
+        conexion = BBDD.abrir_base()
+        cursor = conexion.cursor()
+        cursor.execute(delete_table_query)
+        cursor.fetchone()
+        #Confirmamos de base de datos
+        conexion.commit()
+        #Cerramos la base de datos
+        conexion.close()
+        return True
+    return False
+        
+                 
 def tabla_completa(datos):
     # Iniciamos la base de datos
     conexion = BBDD.abrir_base()

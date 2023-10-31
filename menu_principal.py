@@ -108,6 +108,9 @@ def menu_datos ():
                     
 
                 elif opcion == 0:
+                    print("-" * 90)
+                    print("Gracias por visitar es sistema de consulta ByteZero")
+                    print("-" * 90)
                     sys.exit()
                     
             else:
@@ -127,11 +130,12 @@ def menu_usuario(datos):
         print("3. Modificar registro por Id")
         print("4. Eliminar registro por Id")
         print("5. Imprmir base de datos actualizada")
+        print("6. Reinciar datos")
         print("0. Volver")
         print("-" * 90)
         
         opcion = int(input("Ingrese una opcion: "))
-        if (opcion >= 0 and opcion <= 5):
+        if (opcion >= 0 and opcion <= 6):
                 if opcion == 1:
                     CRUD.consulta_por_id(datos)
                     
@@ -151,7 +155,13 @@ def menu_usuario(datos):
                 elif opcion == 5:
                     CRUD.tabla_completa (datos)
                     
-
+                    
+                elif opcion == 6:
+                    reiniciar = CRUD.reiniciar_datos (datos)
+                    if reiniciar:
+                        WS.web_scraping (datos)
+                        
+                    
                 elif opcion == 0:
                     break
                     

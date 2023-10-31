@@ -129,13 +129,6 @@ def web_scraping (datos):
     conexion = BBDD.abrir_base()
     cursor = conexion.cursor()
     print("Conexión exitosa")
-    
-    
-
-    #     # Eliminar la tabla de la base de datos si se selecciona
-    #     cursor.execute(delete_table_query)
-    
-    # Consultar el esquema para verificar si la tabla existe
     cursor.execute("SHOW TABLES LIKE %s", (datos,))
     resultado = cursor.fetchone()
 
@@ -151,10 +144,10 @@ def web_scraping (datos):
             cursor.execute(insert_query, data)
             # Commit los cambios
             conexion.commit()
-            print("Datos insertados en la base de datos SQL.")
+        print("Datos insertados en la base de datos SQL.")
         
     cursor.execute(insert_data)
-    res = cursor.fetchall()
+    cursor.fetchall()
 
     # Commit los cambios
     conexion.commit()
